@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"fmt"
-	dc "github.com/nronzel/xoracle/pkg/decryption"
-	tmpls "github.com/nronzel/xoracle/templates"
-	"github.com/nronzel/xoracle/utils"
 	"html/template"
 	"net/http"
 	"strings"
+
+	dc "github.com/nronzel/xoracle/pkg/decryption"
+	tmpls "github.com/nronzel/xoracle/templates"
+	"github.com/nronzel/xoracle/utils"
 )
 
 func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
@@ -19,27 +20,29 @@ func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
 	}
 
 	encodedData := r.FormValue("inputData")
-	data, err := utils.DecodeBase64(encodedData)
+
+	// Checks if data is Base64 or Hex encoded, and decodes, otherwise just
+	// returns the data as is. It's either plaintext, or some other encoding
+	// not checked for.
+	verifiedData, err := utils.Decode(encodedData)
 	if err != nil {
-		w.Header().Set("Content-Type", "text-/plain")
-		http.Error(w, "failed to decode data", http.StatusInternalServerError)
-		return
+		w.Header().Set("Content-Type", "text/plaintext")
 	}
 
-	topKeySizes, err := dc.GuessKeySizes(data)
+	topKeySizes, err := dc.GuessKeySizes(verifiedData)
 	if err != nil {
-		w.Header().Set("Content-Type", "text-/plain")
+		w.Header().Set("Content-Type", "text/plaintext")
 		http.Error(w, "problem guessing keysizes", http.StatusInternalServerError)
 		return
 	}
 
-	if len(data) == 0 || len(topKeySizes) == 0 {
-		w.Header().Set("Content-Type", "text-/plain")
+	if len(verifiedData) == 0 || len(topKeySizes) == 0 {
+		w.Header().Set("Content-Type", "text/plaintext")
 		http.Error(w, "data or key sizes are missing", http.StatusBadRequest)
 		return
 	}
 
-	results := dc.ProcessKeySizes(topKeySizes, data)
+	results := dc.ProcessKeySizes(topKeySizes, verifiedData)
 
 	// Initialize the HTML response with a container div
 	var responseHTML strings.Builder
