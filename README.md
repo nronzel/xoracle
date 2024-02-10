@@ -5,10 +5,14 @@ cipher. Utilizing brute-force methods alongside transposition and frequency
 analysis techniques, XORacle will attempt to deduce the key size and the key
 itself.
 
+This project is dockerized and gets deployed to Google Cloud Run.
+[View Hosted Site](https://xoracle-uzphfx7uwa-ue.a.run.app)
+
 ## ToDo
 
-- [ ] Clear the output on each request
-- [x] Finish README
+- [x] Clear the output on each request
+- [ ] Rate limiting
+- [ ] Better HTMX errors
 
 ## Features
 
@@ -43,6 +47,8 @@ cd xoracle
 
 3. Install dependencies:
 
+The only dependency for this project is Chi. Install with the command below.
+
 ```sh
 go mod tidy
 ```
@@ -63,7 +69,9 @@ localhost:8080/
 
 This project was created while going through the [CryptoPals](https://cryptopals.com/)
 challenge to get more familiar with cryptography. Specifically,
-[Set 1 Project 6](https://cryptopals.com/sets/1/challenges/6).
+[Set 1 Project 6](https://cryptopals.com/sets/1/challenges/6). I had a lot of
+fun making this and saw it as a good chance to make a basic frontend
+to get a little familiar with HTMX. I also learned a LOT about XOR ciphers.
 
 ## How it Works
 
@@ -102,6 +110,13 @@ attempt to decrypt the ciphertext using these keys and scores the resulting
 plaintexts, using the same frequency analysis function from above. The key
 that produces the most closely resembling English is selected as the most
 likely key used for encryption.
+
+### Limitations
+
+Only works on English language text. If the ciphertext is numbers or coordinates
+of some kind, XORacle will not be able to decrypt the data. If you'd like other
+languages, feel free to submit a pull request with a frequency map for the
+language, and a function that can detect the language.
 
 ## Testing
 
