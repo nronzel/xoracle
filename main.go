@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nronzel/xoracle/pkg/handlers"
+	limiter "github.com/nronzel/xoracle/pkg/rate_limiter"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -20,7 +21,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:         ":8080",
-		Handler:      r,
+		Handler:      limiter.Limit(r),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
