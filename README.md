@@ -13,6 +13,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 - [x] Clear the output on each request
 - [ ] Rate limiting
 - [ ] Better HTMX errors
+- [ ] More tests
 
 ## Features
 
@@ -59,19 +60,60 @@ go mod tidy
 go build -o xoracle && ./xoracle
 ```
 
+There is also a script located in `scripts/buildprod.sh` that you can run if
+you are running Linux that will build the executable with the production build
+flags.
+
 5. Open your browser and navigate to:
 
 ```text
 localhost:8080/
 ```
 
+### Docker
+
+If you'd like to run this locally in a Docker container:
+
+Pull the image:
+
+```sh
+docker pull sutats/xoracle
+```
+
+Run the image:
+
+```sh
+docker run -p 8080:8080 xoracle
+```
+
+### Alternatively (Build Image Yourself From Dockerfile)
+
+You can build a docker image with the included Dockerfile yourself, and run
+the image in a container.
+
+While in the root of the project directory.
+Build the image:
+
+```sh
+docker build . -t xoracle:latest
+```
+
+Run the image in a container:
+
+```sh
+docker run -p 8080:8080 xoracle
+```
+
+You should then be able to navigate to `localhost:8080` in your browser to
+see the hosted Docker application.
+
 ## About
 
 This project was created while going through the [CryptoPals](https://cryptopals.com/)
-challenge to get more familiar with cryptography. Specifically,
-[Set 1 Project 6](https://cryptopals.com/sets/1/challenges/6). I had a lot of
+challenge to get more familiar with cryptography; specifically,
+[Set 1 - Project 6](https://cryptopals.com/sets/1/challenges/6). I had a lot of
 fun making this and saw it as a good chance to make a basic frontend
-to get a little familiar with HTMX. I also learned a LOT about XOR ciphers.
+to get a little familiar with HTMX. I also learned quite a bit about XOR ciphers.
 
 ## How it Works
 
@@ -82,7 +124,7 @@ the Hamming distance (the number of differing bits) between the blocks of
 ciphertext. By analyzing the distances between blocks of various sizes, we can
 make educated guesses about the most probable key sizes. The assumption is that
 the correct key size with result in the smallest average normalized Hamming
-distance because correctly sizes blocks aligned witht the repeating key will have
+distance because correctly sized blocks aligned with the repeating key will have
 more similar bit patterns.
 
 ### Key Size Validation
@@ -90,17 +132,17 @@ more similar bit patterns.
 With a set of potential key sizes, XORacle then divides the ciphertext into blocks
 of each guessed key size. For each key size, the blocks are transposed to align
 with the `nth` byte of each block into the new blocks. This effectively groups
-together all bytes encrypted with the same byte of the turning the problem into
-multiple single-byte XOR cipher problems.
+together all bytes encrypted with the same byte of the key, turning the problem into
+multiple single-byte XOR ciphers.
 
 ### Frequency Analysis
 
 For each transposed block, XORacle applies frequncy analysis. Presuming the data
 is in English plaintext, the frequency of characters in these transposed blocks
-is compared against known English language frequency statistic. Each byte in the
-range of 0x00 and 0xFF is tried as the key for the single-byte XOR, and the output
-is scored based on how closely it matches the expected English text character
-frequencies.
+is compared against known English language frequency statistics. Each byte in the
+range of 0x00 and 0xFF (0-255) is tried as the key for the single-byte XOR, and
+the output is scored based on how closely it matches the expected English text
+character frequencies.
 
 ### Determining Best Key
 
@@ -108,7 +150,7 @@ After scoring each potential key byte for each position in the key, XORacle comb
 the highest-scoring bytes to form the keys for each guessed key size. It will then
 attempt to decrypt the ciphertext using these keys and scores the resulting
 plaintexts, using the same frequency analysis function from above. The key
-that produces the most closely resembling English is selected as the most
+that produces output that most closely resembles English is selected as the most
 likely key used for encryption.
 
 ### Limitations
