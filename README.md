@@ -1,3 +1,9 @@
+![ci-status](https://img.shields.io/github/actions/workflow/status/nronzel/xoracle/ci.yml?label=ci)
+![cd-status](https://img.shields.io/github/actions/workflow/status/nronzel/xoracle/cd.yml?label=cd)
+![top-lang](https://img.shields.io/github/languages/top/nronzel/xoracle?logo=go)
+![docker-pulls](https://img.shields.io/docker/pulls/sutats/xoracle?logo=docker)
+![licent](https://img.shields.io/github/license/nronzel/xoracle)
+
 # XORacle
 
 XORacle is a tool designed to decrypt data encoded with a repeating-key XOR
@@ -14,6 +20,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 - [x] Rate limiting
 - [ ] Better HTMX errors
 - [ ] More tests
+- [ ] Semver versioning
 
 ## Features
 
