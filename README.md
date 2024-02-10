@@ -103,6 +103,14 @@ plaintexts, using the same frequency analysis function from above. The key
 that produces the most closely resembling English is selected as the most
 likely key used for encryption.
 
+## Testing
+
+Run the included test suite with the following command:
+
+```sh
+go test ./... -v
+```
+
 ## Contributing
 
 Contributions to XORacle are welcome! If you have suggestions for improvements
