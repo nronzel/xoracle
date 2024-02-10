@@ -15,7 +15,7 @@ func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		w.Header().Set("Content-Type", "text-/plain")
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		http.Error(w, "failed to parse form", http.StatusBadRequest)
 		return
 	}
 

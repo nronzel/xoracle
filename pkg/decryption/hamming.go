@@ -48,7 +48,7 @@ func averageHammingDistance(data []byte, keySize int) (float64, error) {
 // between two sequences of equal length.
 func hammingDistance(s1, s2 []byte) (int, error) {
 	if len(s1) != len(s2) {
-		return 0, errors.New("Error: byte slices must be of equal length")
+		return 0, errors.New("error: byte slices must be of equal length")
 	}
 
 	distance := 0

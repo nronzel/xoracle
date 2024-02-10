@@ -68,7 +68,7 @@ func GuessKeySizes(data []byte) ([]int, error) {
 		}
 		averageDistance, err := averageHammingDistance(data, keySize)
 		if err != nil {
-			return nil, fmt.Errorf("calculating average distance: %w\n", err)
+			return nil, fmt.Errorf("calculating average distance: %w", err)
 		}
 		scores = append(scores, keySizeScore{keySize, averageDistance})
 	}
