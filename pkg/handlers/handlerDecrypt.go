@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	dc "github.com/nronzel/xoracle/pkg/decryption"
-	tmpls "github.com/nronzel/xoracle/templates"
 	"github.com/nronzel/xoracle/utils"
 )
 
@@ -70,18 +69,4 @@ func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
 	// Set the content type to HTML
 	w.Header().Set("Content-Type", "text/html")
 	fmt.Fprint(w, responseHTML.String())
-}
-
-func HandlerRoot(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.New("index").Parse(tmpls.IndexTemplate)
-	if err != nil {
-		w.Header().Set("Content-Type", "text-/plain")
-		http.Error(w, "failed to load template", http.StatusInternalServerError)
-		return
-	}
-	err = tmpl.Execute(w, nil)
-	if err != nil {
-		w.Header().Set("Content-Type", "text-/plain")
-		http.Error(w, "problem executing template", http.StatusInternalServerError)
-	}
 }

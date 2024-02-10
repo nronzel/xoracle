@@ -62,10 +62,12 @@ func GuessKeySizes(data []byte) ([]int, error) {
 
 	// Loop through each possible key size from 2 to maxKeySize (inclusive).
 	for keySize := 2; keySize <= maxKeySize; keySize++ {
-		// Calculate the average Hamming distance for this key size.
+		// Skip keySize if keySize*4 exceeds the length of the data. Not able
+		// to make a meaningful comparison.
 		if keySize*4 > len(data) {
 			continue
 		}
+		// Calculate the average Hamming distance for this key size.
 		averageDistance, err := averageHammingDistance(data, keySize)
 		if err != nil {
 			return nil, fmt.Errorf("calculating average distance: %w", err)
