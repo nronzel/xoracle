@@ -11,7 +11,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 ## ToDo
 
 - [x] Clear the output on each request
-- [ ] Rate limiting
+- [x] Rate limiting
 - [ ] Better HTMX errors
 - [ ] More tests
 
@@ -27,6 +27,16 @@ This project is dockerized and gets deployed to Google Cloud Run.
   interface.
 
 ## Installation
+
+### Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Install Steps](#steps)
+- [Docker](#docker)
+- [Docker - Build Yourself](#alternatively-build-image-yourself-from-dockerfile)
+- [How it Works](#how-it-works)
+- [About](#about)
+- [Contributing](#contributing)
 
 ### Prerequisites
 
@@ -48,7 +58,10 @@ cd xoracle
 
 3. Install dependencies:
 
-The only dependency for this project is Chi. Install with the command below.
+Chi v5
+golang.org/x/time
+
+Install dependencies with the command:
 
 ```sh
 go mod tidy
@@ -60,9 +73,16 @@ go mod tidy
 go build -o xoracle && ./xoracle
 ```
 
-There is also a script located in `scripts/buildprod.sh` that you can run if
-you are running Linux that will build the executable with the production build
-flags.
+> There is also a script located in `scripts/buildprod.sh` that you can use if
+> you are running Linux that will build the executable with the production build
+> flags. If you are running another OS you will need to modify the build flags for
+> your OS, or just build from the command line as normal.
+>
+> The flags used in `buildprod.sh` are:
+>
+> ```sh
+> CGO_ENABLED=0 GOOS=linux GOARCH=amd64
+> ```
 
 5. Open your browser and navigate to:
 
@@ -72,12 +92,12 @@ localhost:8080/
 
 ### Docker
 
-If you'd like to run this locally in a Docker container:
+If you'd like to run this in a Docker container:
 
 Pull the image:
 
 ```sh
-docker pull sutats/xoracle
+docker pull sutats/xoracle:latest
 ```
 
 Run the image:
@@ -91,7 +111,8 @@ docker run -p 8080:8080 xoracle
 You can build a docker image with the included Dockerfile yourself, and run
 the image in a container.
 
-While in the root of the project directory.
+While in the root of the project directory:
+
 Build the image:
 
 ```sh
@@ -135,6 +156,22 @@ with the `nth` byte of each block into the new blocks. This effectively groups
 together all bytes encrypted with the same byte of the key, turning the problem into
 multiple single-byte XOR ciphers.
 
+The chart below helps visualize this transposition.
+
+```mermaid
+graph TD
+    A[Block 1: byte1, byte2, ..., byteN] --> B((Transpose))
+    C[Block 2: byte1, byte2, ..., byteN] --> B
+    D[Block 3: byte1, byte2, ..., byteN] --> B
+    B --> E[New Block 1: Block1.byte1, Block2.byte1, Block3.byte1, ...]
+    B --> F[New Block 2: Block1.byte2, Block2.byte2, Block3.byte2, ...]
+    B --> G[...]
+    B --> H[New Block N: Block1.byteN, Block2.byteN, Block3.byteN, ...]
+
+    classDef block fill:#fcc7f,stroke:#333,stroke-width:2px;
+    class A,C,D block;
+```
+
 ### Frequency Analysis
 
 For each transposed block, XORacle applies frequncy analysis. Presuming the data
@@ -155,10 +192,10 @@ likely key used for encryption.
 
 ### Limitations
 
-Only works on English language text. If the ciphertext is numbers or coordinates
-of some kind, XORacle will not be able to decrypt the data. If you'd like other
-languages, feel free to submit a pull request with a frequency map for the
-language, and a function that can detect the language.
+Only works on English language text. If the ciphertext is numbers, coordinates
+of some kind, or any other language, XORacle will not be able to decrypt the data.
+If you'd like other languages, feel free to submit a pull request with a frequency
+map for the language, and a function that can detect the language.
 
 ## Testing
 
