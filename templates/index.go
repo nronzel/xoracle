@@ -172,6 +172,7 @@ const IndexTemplate = `
         and frequency analysis techniques, it aims to deduce both the key size
         and the key itself. Once the key has been identified, the tool proceeds
         to decrypt the encoded information with the discovered key.</p>
+        <p style="font-style: italic; color: grey; margin-top: -25px;">Author: <a href="http://www.github.com/nronzel/xoracle" style="color: cyan;">nronz</a></p>
         <div id="error-message" style="color: red; z-index: 100;"></div>
         <form hx-post="/decrypt" hx-target="#output" hx-target-error="#error-message" hx-swap="innerHTML" id="inputForm">
             <div class="text-container">
