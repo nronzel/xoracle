@@ -189,9 +189,11 @@ const IndexTemplate = `
 </body>
 <script>
 document.body.addEventListener('htmx:configRequest', function(event) {
+    var outputContainer = document.getElementById('output');
+    outputContainer.innerHTML = '';
+
     // Hide and clear the error message when a new request is being configured
     var errorContainer = document.getElementById('error-message');
-    // errorContainer.style.display = 'none'; // Hide the container
     errorContainer.innerHTML = ''; // Clear any existing error message
 });
 </script>
