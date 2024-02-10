@@ -19,9 +19,11 @@ func main() {
 
 	r.Post("/decrypt", handlers.HandlerDecrypt)
 
+	rl := limiter.NewRateLimiter(1, 3)
+
 	server := &http.Server{
 		Addr:         ":8080",
-		Handler:      limiter.Limit(r),
+		Handler:      rl.Limit(r),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
