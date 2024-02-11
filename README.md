@@ -33,6 +33,44 @@ This project is dockerized and gets deployed to Google Cloud Run.
 - **User-Friendly Interface**: Front-end written with HTMX to provide a basic
   interface.
 
+## Endpoints
+
+### Homepage
+
+- **URL:** `/`
+- **Method:** `GET`
+- **Description:** Retrieves the homepage of the Xoracle web application. Includes
+  a form where users can input encoded data for decryption.
+- **Auth Required:** No
+- **Parameters:** None
+- **Success Responses:**
+  - **Code:** `200 OK`
+  - **Content-Type:** `text/html`
+  - **Content:** HTML content of homepage
+
+### Decrypt Data
+
+- **URL:** `/decrypt`
+- **Method:** `POST`
+- **Description:** Accepts encoded (either Base64 or Hex format) via form submission
+  and attempts to decrypt it using various key sizes. Returns the decrypted data
+  alongside the key used for decryption and the key size.
+- **Auth Required:** No
+- **Parameters:**
+  - **inputData** (formData): The encoded data to be decrypted
+- **Success Response:**
+  - **Code:** `200 OK`
+  - **Content-Type:** `text/html`
+  - **Content:** HTML containing the decryption results, including the key size,
+    the key itself, and the decrypted data.
+- **Error Responses:**
+  - **Code: `400 Bad Request`**
+    - **Content-Type:** `text/plain`
+    - **Reason:** Data or key sizes are missing, or the form failed to parse.
+  - **Code: `500 Internal Server Error`**
+    - **Content-Type:** `text/plain`
+    - **Reason:** An error occurred during data decoding or key size guessing.
+
 ## Installation
 
 ### Table of Contents
@@ -42,6 +80,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 - [Docker](#docker)
 - [Docker - Build Yourself](#alternatively-build-image-yourself-from-dockerfile)
 - [How it Works](#how-it-works)
+- [Usage](#usage)
 - [About](#about)
 - [Contributing](#contributing)
 
@@ -134,6 +173,11 @@ docker run -p 8080:8080 xoracle
 
 You should then be able to navigate to `localhost:8080` in your browser to
 see the hosted Docker application.
+
+## Usage
+
+Enter the encoded text in the input box and click the "Process" button. The
+processed data will show in the output box, or an error will display on the screen.
 
 ## About
 
