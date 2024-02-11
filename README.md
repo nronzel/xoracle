@@ -88,7 +88,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 
 ### Prerequisites
 
-Go 1.15 or later
+Go 1.22
 
 ### Steps
 
