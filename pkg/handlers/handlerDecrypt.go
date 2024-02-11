@@ -26,6 +26,8 @@ func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
 	verifiedData, err := utils.Decode(encodedData)
 	if err != nil {
 		w.Header().Set("Content-Type", "text/plaintext")
+		http.Error(w, "problem decoding data", http.StatusInternalServerError)
+		return
 	}
 
 	topKeySizes, err := dc.GuessKeySizes(verifiedData)

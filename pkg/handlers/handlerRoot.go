@@ -18,5 +18,6 @@ func HandlerRoot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "text-/plain")
 		http.Error(w, "problem executing template", http.StatusInternalServerError)
+        return
 	}
 }
