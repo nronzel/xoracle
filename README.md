@@ -65,8 +65,8 @@ cd xoracle
 
 3. Install dependencies:
 
-Chi v5
-golang.org/x/time
+- Chi v5
+- golang.org/x/time
 
 Install dependencies with the command:
 
