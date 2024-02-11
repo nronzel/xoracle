@@ -21,6 +21,7 @@ This project is dockerized and gets deployed to Google Cloud Run.
 - [x] Rate limiting
 - [ ] Better HTMX errors
 - [ ] More tests
+- [x] Use the new ServeMux in Go 1.22 to replace Chi
 - [x] Semver versioning
 
 ## Features
