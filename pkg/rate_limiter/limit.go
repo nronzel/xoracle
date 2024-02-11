@@ -97,6 +97,7 @@ func (rl *RateLimiter) Limit(next http.Handler) http.Handler {
 		// Call getVisitor func to retrive the rate limiter for the current user
 		limiter := rl.getVisitor(ip)
 		if !limiter.Allow() {
+			log.Printf("%s has been rate limited", ip)
 			http.Error(w, http.StatusText(http.StatusTooManyRequests), http.StatusTooManyRequests)
 			return
 		}

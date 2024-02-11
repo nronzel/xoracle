@@ -97,7 +97,7 @@ type DecryptionResult struct {
 	DecryptedData string
 }
 
-// processKeySizes attempts to decrypt the provided byte slice (data) for each
+// ProcessKeySizes attempts to decrypt the provided byte slice (data) for each
 // of the top key sizes found. It attempts to break a repeating-key XOR cipher
 // without directly knowing the key.
 func ProcessKeySizes(topKeySizes []int, data []byte) []DecryptionResult {

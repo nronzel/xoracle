@@ -8,22 +8,19 @@ import (
 
 	"github.com/nronzel/xoracle/pkg/handlers"
 	limiter "github.com/nronzel/xoracle/pkg/rate_limiter"
-
-	"github.com/go-chi/chi/v5"
 )
 
 func main() {
-	r := chi.NewRouter()
+	mux := http.NewServeMux()
 
-	r.Get("/", handlers.HandlerRoot)
-
-	r.Post("/decrypt", handlers.HandlerDecrypt)
+	mux.HandleFunc("GET /", handlers.HandlerRoot)
+	mux.HandleFunc("POST /decrypt", handlers.HandlerDecrypt)
 
 	rl := limiter.NewRateLimiter(1, 3)
 
 	server := &http.Server{
 		Addr:         ":8080",
-		Handler:      rl.Limit(r),
+		Handler:      rl.Limit(mux),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
