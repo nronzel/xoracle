@@ -15,9 +15,6 @@ itself.
 This project is dockerized and gets deployed to Google Cloud Run.
 [View Hosted Site](https://xoracle-uzphfx7uwa-ue.a.run.app)
 
-> I broke something and the included `example.txt` doesn't properly decrypt.
-> This will be fixed shortly....
-
 ## ToDo
 
 - [x] Clear the output on each request
