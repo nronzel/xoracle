@@ -47,17 +47,8 @@ func ScoreText(input []byte) float64 {
 }
 
 // isBase64Encoded checks if the input string is Base64 encoded.
-// This function performs a basic check to see if the input is decodable from Base64,
-// and it also checks against a regex pattern to ensure it only contains Base64 characters.
-func IsBase64Encoded(input string) bool {
-	// Base64 regex pattern to match valid Base64 characters
-	// This pattern checks for the Base64 character set and padding with '=' at the end.
-	base64Pattern := `^[A-Za-z0-9+/]+={0,2}$`
-	matched, _ := regexp.MatchString(base64Pattern, input)
-	if !matched {
-		return false
-	}
-
+// This function performs a basic check to see if the input is decodable from Base64.
+func isBase64Encoded(input string) bool {
 	// Attempt to decode the input string from Base64
 	_, err := base64.StdEncoding.DecodeString(input)
 	return err == nil
@@ -65,7 +56,7 @@ func IsBase64Encoded(input string) bool {
 
 // isHexEncoded checks if the input string is hex encoded.
 // This function uses a regex pattern to ensure the string consists only of hexadecimal characters.
-func IsHexEncoded(input string) bool {
+func isHexEncoded(input string) bool {
 	// Hex regex pattern to match valid hexadecimal characters
 	hexPattern := `^[0-9A-Fa-f]+$`
 	matched, err := regexp.MatchString(hexPattern, input)
@@ -79,22 +70,22 @@ func IsHexEncoded(input string) bool {
 func Decode(encodedData string) ([]byte, error) {
 	var verifiedData []byte
 	var err error
-	if IsBase64Encoded(encodedData) {
-		verifiedData, err = base64.StdEncoding.DecodeString(encodedData)
+	if isHexEncoded(encodedData) {
+		verifiedData, err = DecodeHex(encodedData)
 		if err != nil {
 			return nil, err
 		}
 		return verifiedData, nil
 	}
 
-	if IsHexEncoded(encodedData) {
-		verifiedData, err = hex.DecodeString(encodedData)
+	if isBase64Encoded(encodedData) {
+		verifiedData, err = DecodeBase64(encodedData)
 		if err != nil {
 			return nil, err
 		}
 		return verifiedData, nil
 	}
 
-	// plaintext, or some other encoding that I didn't check for.
+	// plaintext, or some other encoded data type not checked for.
 	return verifiedData, nil
 }
