@@ -13,7 +13,7 @@ func TestScoreText(t *testing.T) {
 		{name: "Valid score", text: "What Do You Want From Me", score: 158.66299999999998},
 		{name: "No text", text: "", score: 0.0},
 		{name: "Single letter", text: "a", score: 8.167},
-        {name: "Space", text: " ", score: 13.000},
+		{name: "Space", text: " ", score: 13.000},
 	}
 
 	for _, tt := range tests {
