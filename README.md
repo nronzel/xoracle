@@ -180,6 +180,21 @@ see the hosted Docker application.
 Enter the encoded text in the input box and click the "Process" button. The
 processed data will show in the output box, or an error will display on the screen.
 
+Feel free to use the small example below, or the text from the included [example.txt](./example.txt)
+file in the repository to test it out.
+
+```sh
+// Base64 encoded
+MiciMCQ2YTYkOjViJTclJyQ=
+```
+
+or
+
+```sh
+// Hex encoded
+3227223024366136243a35622537252724
+```
+
 ## About
 
 This project was created while going through the [CryptoPals](https://cryptopals.com/)
