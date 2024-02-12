@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-// TestTransposeBlocks tests the transposeBlocks function with various input scenarios.
 func TestTransposeBlocks(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -71,7 +70,7 @@ func TestTransposeBlocks(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := transposeBlocks(tt.blocks, tt.keySize)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("transposeBlocks() = %v, want %v", got, tt.want)
+				t.Errorf("want: %v, got: %v", tt.want, got)
 			}
 		})
 	}
