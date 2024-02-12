@@ -2,9 +2,10 @@ package decryption
 
 import (
 	"fmt"
-	"github.com/nronzel/xoracle/utils"
 	"math"
 	"sort"
+
+	"github.com/nronzel/xoracle/analysis"
 )
 
 // singleByteXORCipher attempts to decrypt a message that has been XOR'ed
@@ -30,7 +31,7 @@ func singleByteXORCipher(encoded []byte) (byte, []byte) {
 		}
 
 		// Evaluate the decrypted message using a scoring function.
-		score := utils.ScoreText(decoded)
+		score := analysis.ScoreText(decoded)
 
 		// If the current message's score is higher than the highest score found
 		// so far - update maxScore, key, and message with the current values.

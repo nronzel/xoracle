@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/nronzel/xoracle/pkg/handlers"
-	limiter "github.com/nronzel/xoracle/pkg/rate_limiter"
+	mw "github.com/nronzel/xoracle/pkg/middleware"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	mux.HandleFunc("GET /", handlers.HandlerRoot)
 	mux.HandleFunc("POST /decrypt", handlers.HandlerDecrypt)
 
-	rl := limiter.NewRateLimiter(1, 3)
+	rl := mw.NewRateLimiter(1, 3)
 
 	server := &http.Server{
 		Addr:         ":8080",

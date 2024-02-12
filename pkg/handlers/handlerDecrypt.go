@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	en "github.com/nronzel/xoracle/encoding"
 	dc "github.com/nronzel/xoracle/pkg/decryption"
-	"github.com/nronzel/xoracle/utils"
 )
 
 func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
@@ -23,7 +23,7 @@ func HandlerDecrypt(w http.ResponseWriter, r *http.Request) {
 	// Checks if data is Base64 or Hex encoded, and decodes, otherwise just
 	// returns the data as is. It's either plaintext, or some other encoding
 	// not checked for.
-	verifiedData, err := utils.Decode(encodedData)
+	verifiedData, err := en.Decode(encodedData)
 	if err != nil {
 		w.Header().Set("Content-Type", "text/plaintext")
 		http.Error(w, "problem decoding data", http.StatusInternalServerError)
