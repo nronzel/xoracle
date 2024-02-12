@@ -7,22 +7,16 @@
 
 # XORacle
 
-XORacle is a tool designed to decrypt data encoded with a repeating-key XOR
-cipher. Utilizing brute-force methods alongside transposition and frequency
-analysis techniques, XORacle will attempt to deduce the key size and the key
-itself.
+XORacle is a simple tool aimed at decrypting data that's been encrypted using
+a repeating-key XOR cipher. It combines a brute-force approach with transposition
+and frequency analysis to try and figure out the encryption key's size, the
+key itself, and attempts to decrypt the data with the derived key(s).
 
-This project is dockerized and gets deployed to Google Cloud Run.
-[View Hosted Site](https://xoracle-uzphfx7uwa-ue.a.run.app)
-
-## ToDo
-
-- [x] Clear the output on each request
-- [x] Rate limiting
-- [ ] Better HTMX errors
-- [ ] More tests
-- [x] Use the new ServeMux in Go 1.22 to replace Chi
-- [x] Semver versioning
+> This project is dockerized and gets deployed to Google Cloud Run.
+>
+> [View Hosted Site](https://xoracle-uzphfx7uwa-ue.a.run.app)
+>
+> _See the [Usage](#usage) section for examples to test it out._
 
 ## Features
 
@@ -92,19 +86,19 @@ Go 1.22
 
 ### Steps
 
-1. Clone the repository:
+**1. Clone the repository:**
 
 ```sh
 git clone https://github.com/nronzel/xoracle.git
 ```
 
-2. Navigate to the project directory:
+**2. Navigate to the project directory:**
 
 ```sh
 cd xoracle
 ```
 
-3. Install dependencies:
+**3. Install dependencies:**
 
 - golang.org/x/time
 
@@ -114,16 +108,23 @@ Install dependencies with the command:
 go mod tidy
 ```
 
-4. Build and run the project:
+**4. Build and run the project:**
+
+Linux & MacOS:
 
 ```sh
 go build -o xoracle && ./xoracle
 ```
 
-> There is also a script located in `scripts/buildprod.sh` that you can use if
-> you are running Linux that will build the executable with the production build
-> flags. If you are running another OS you will need to modify the build flags for
-> your OS, or just build from the command line as normal.
+Windows:
+
+```sh
+go build -o xoracle.exe && .\xoracle.exe
+```
+
+> The script `scripts/buildprod.sh` is included and used to build the binary
+> that gets deployed to Cloud Run. You can use this script if you're planning
+> on running the binary on a Linux amd64 machine.
 >
 > The flags used in `buildprod.sh` are:
 >
@@ -131,7 +132,7 @@ go build -o xoracle && ./xoracle
 > CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 > ```
 
-5. Open your browser and navigate to:
+**5. Open your browser and navigate to:**
 
 ```text
 localhost:8080/
@@ -141,13 +142,13 @@ localhost:8080/
 
 If you'd like to run this in a Docker container:
 
-Pull the image:
+**Pull the image:**
 
 ```sh
 docker pull sutats/xoracle:latest
 ```
 
-Run the image:
+**Run the image:**
 
 ```sh
 docker run -p 8080:8080 xoracle
@@ -160,13 +161,13 @@ the image in a container.
 
 While in the root of the project directory:
 
-Build the image:
+**Build the image:**
 
 ```sh
 docker build . -t xoracle:latest
 ```
 
-Run the image in a container:
+**Run the image in a container:**
 
 ```sh
 docker run -p 8080:8080 xoracle
@@ -211,7 +212,7 @@ Begin by identifying potential key sizes. XORacle employs a heuristic based on
 the Hamming distance (the number of differing bits) between the blocks of
 ciphertext. By analyzing the distances between blocks of various sizes, we can
 make educated guesses about the most probable key sizes. The assumption is that
-the correct key size with result in the smallest average normalized Hamming
+the correct key size will result in the smallest average normalized Hamming
 distance because correctly sized blocks aligned with the repeating key will have
 more similar bit patterns.
 
