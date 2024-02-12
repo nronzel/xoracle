@@ -14,12 +14,12 @@ func TestProcessKeySizes(t *testing.T) {
 		name        string
 		topKeySizes []int
 		data        []byte
-		expected    []DecryptionResult
+		want        []DecryptionResult
 	}{
 		{name: "Base64 Decoded - Should Decrypt",
 			topKeySizes: []int{2},
 			data:        decodedBase64,
-			expected: []DecryptionResult{
+			want: []DecryptionResult{
 				{KeySize: 2,
 					Key:           []byte("AB"),
 					DecryptedData: "secret text dudee",
@@ -29,7 +29,7 @@ func TestProcessKeySizes(t *testing.T) {
 		{name: "Base64 Decoded - Should Decrypt",
 			topKeySizes: []int{2},
 			data:        decodedHex,
-			expected: []DecryptionResult{
+			want: []DecryptionResult{
 				{KeySize: 2,
 					Key:           []byte("AB"),
 					DecryptedData: "secret text dudee",
@@ -41,7 +41,7 @@ func TestProcessKeySizes(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := ProcessKeySizes(tt.topKeySizes, tt.data)
-			if !reflect.DeepEqual(got[0], tt.expected[0]) {
+			if !reflect.DeepEqual(got[0], tt.want[0]) {
 				t.Errorf("did not receive expected result: %v", got[0])
 			}
 		})

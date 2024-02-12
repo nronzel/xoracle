@@ -14,8 +14,6 @@ import (
 // |Per IP rate limiting|
 // |~------------------~|
 
-// Create custom visitor struct which holds the rate limiter for each visitor
-// and the last time that the visitor was seen.
 type visitor struct {
 	limiter  *rate.Limiter
 	lastSeen time.Time
@@ -28,6 +26,9 @@ type RateLimiter struct {
 	burst    int
 }
 
+// Initializes a new RateLimiter with the provided rate and burst limits. Also
+// starts a background process to cleanup the visitors every minute if they
+// haven't been seen for 3 minutes.
 func NewRateLimiter(rate rate.Limit, burst int) *RateLimiter {
 	rl := &RateLimiter{
 		visitors: make(map[string]*visitor),
@@ -71,8 +72,8 @@ func (rl *RateLimiter) getVisitor(ip string) *rate.Limiter {
 	return v.limiter
 }
 
-// Every minute check the map for visitors that haven't been seen for more
-// than 3 minutes and delete the entries.
+// Check the map for visitors that haven't been seen for more than 3 minutes
+// and delete the entries.
 func (rl *RateLimiter) CleanupVisitors() {
 	rl.mu.Lock()
 	defer rl.mu.Unlock()
@@ -83,7 +84,7 @@ func (rl *RateLimiter) CleanupVisitors() {
 	}
 }
 
-// Wraps HTTP handler with rate limiting.
+// Middleware to wrap HTTP handler with rate limiting.
 func (rl *RateLimiter) Limit(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Get the IP for the current user

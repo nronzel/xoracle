@@ -7,7 +7,7 @@ import (
 
 // averageHammingDistance calculates the average Hamming distance
 // between multiple pairs of blocks of bytes, where each block is of size
-// 'keySize'. Helps in estimating the size of the key used in encryption
+// keySize. Helps in estimating the size of the key used in encryption
 // algorithms that operate in block modes.
 func averageHammingDistance(data []byte, keySize int) (float64, error) {
 	// At least 4 blocks of 'keySize' are needed to make a meaningful comparison.

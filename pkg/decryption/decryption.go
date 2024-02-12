@@ -33,7 +33,7 @@ func singleByteXORCipher(encoded []byte) (byte, []byte) {
 		score := utils.ScoreText(decoded)
 
 		// If the current message's score is higher than the highest score found
-		// so far, update maxScore, key, and message with the current values.
+		// so far - update maxScore, key, and message with the current values.
 		if score > maxScore {
 			maxScore = score
 			key = byte(k)
@@ -44,11 +44,10 @@ func singleByteXORCipher(encoded []byte) (byte, []byte) {
 	return key, message
 }
 
-// guessKeySizes attempts to guess the key size used in an encryption algorithm
-// based on the average Hamming distance between blocks of bytes in the
-// encrypted data. It returns a slice of the top candidate key sizes that have
-// the lowest average Hamming distances, suggesting these sizes are likely
-// candidates for the actual key size.
+// guessKeySizes attempts to guess the key size based on the average Hamming
+// distance between blocks of bytes in the encrypted data. It returns a slice
+// of the top candidate key sizes that have the lowest average Hamming
+// distances, suggesting these sizes are likely candidates for the actual key size.
 func GuessKeySizes(data []byte) ([]int, error) {
 	const maxKeySize = 40      // The maximum key size to test.
 	const maxKeysToCompare = 2 // The number of top key sizes to return.
@@ -60,7 +59,6 @@ func GuessKeySizes(data []byte) ([]int, error) {
 
 	var scores []keySizeScore
 
-	// Loop through each possible key size from 2 to maxKeySize (inclusive).
 	for keySize := 2; keySize <= maxKeySize; keySize++ {
 		// Skip keySize if keySize*4 exceeds the length of the data. Not able
 		// to make a meaningful comparison.
@@ -91,21 +89,14 @@ func GuessKeySizes(data []byte) ([]int, error) {
 	return topKeySizes, nil
 }
 
-type DecryptionResult struct {
-	KeySize       int
-	Key           []byte
-	DecryptedData string
-}
-
-// ProcessKeySizes attempts to decrypt the provided byte slice (data) for each
+// ProcessKeySizes attempts to decrypt the provided bytes for each
 // of the top key sizes found. It attempts to break a repeating-key XOR cipher
 // without directly knowing the key.
 func ProcessKeySizes(topKeySizes []int, data []byte) []DecryptionResult {
 	var results []DecryptionResult
 	for _, keySize := range topKeySizes {
-		// Break the ciphertext into blocks of KEYSIZE length to manage the
-		// analysis in chunks. This approach is critical for transposing the
-		// bytes correctly in a later step.
+		// Break the ciphertext into blocks of keySize length to manage the
+		// analysis in chunks.
 		blocks := make([][]byte, int(math.Ceil(float64(len(data))/float64(keySize))))
 		for i := 0; i < len(blocks); i++ {
 			start := i * keySize
