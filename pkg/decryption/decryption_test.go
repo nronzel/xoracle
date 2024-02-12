@@ -4,12 +4,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/nronzel/xoracle/utils"
+	"github.com/nronzel/xoracle/encoding"
 )
 
 func TestProcessKeySizes(t *testing.T) {
-	decodedBase64, _ := utils.DecodeBase64("MiciMCQ2YTYkOjViJTclJyQ=")
-	decodedHex, _ := utils.DecodeHex("3227223024366136243a35622537252724")
+	decodedBase64, _ := encoding.DecodeBase64("MiciMCQ2YTYkOjViJTclJyQ=")
+	decodedHex, _ := encoding.DecodeHex("3227223024366136243a35622537252724")
 	tests := []struct {
 		name        string
 		topKeySizes []int
