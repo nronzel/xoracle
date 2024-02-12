@@ -49,6 +49,9 @@ func ScoreText(input []byte) float64 {
 // isBase64Encoded checks if the input string is Base64 encoded.
 // This function performs a basic check to see if the input is decodable from Base64.
 func isBase64Encoded(input string) bool {
+	if input == "" {
+		return false
+	}
 	// Attempt to decode the input string from Base64
 	_, err := base64.StdEncoding.DecodeString(input)
 	return err == nil
@@ -57,6 +60,9 @@ func isBase64Encoded(input string) bool {
 // isHexEncoded checks if the input string is hex encoded.
 // This function uses a regex pattern to ensure the string consists only of hexadecimal characters.
 func isHexEncoded(input string) bool {
+	if input == "" {
+		return false
+	}
 	// Hex regex pattern to match valid hexadecimal characters
 	hexPattern := `^[0-9A-Fa-f]+$`
 	matched, err := regexp.MatchString(hexPattern, input)
@@ -87,5 +93,7 @@ func Decode(encodedData string) ([]byte, error) {
 	}
 
 	// plaintext, or some other encoded data type not checked for.
+	verifiedData = []byte(encodedData)
+
 	return verifiedData, nil
 }
