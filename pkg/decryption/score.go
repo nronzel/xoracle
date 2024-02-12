@@ -1,6 +1,8 @@
 package decryption
 
-import "github.com/nronzel/xoracle/utils"
+import (
+	"github.com/nronzel/xoracle/analysis"
+)
 
 // Scores the resulting decrypted data after attempting to decrypt with the guessed
 // key and keySize. Higher score means it is more likely English text and it will
@@ -11,7 +13,7 @@ func ScoreResults(results []DecryptionResult) DecryptionResult {
 	var highScore float64
 	var best DecryptionResult
 	for _, result := range results {
-		score := utils.ScoreText([]byte(result.DecryptedData))
+		score := analysis.ScoreText([]byte(result.DecryptedData))
 		if score > highScore {
 			highScore = score
 			best.DecryptedData = result.DecryptedData
