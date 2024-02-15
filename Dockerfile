@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM debian:latest
 
 ENV PORT 8080
 
