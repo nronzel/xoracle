@@ -34,7 +34,6 @@ key itself, and attempts to decrypt the data with the derived key(s).
 - [Endpoints](#endpoints)
 - [Installation](#installation)
 - [Docker](#docker)
-- [Docker - Build Yourself](#alternatively-build-image-yourself-from-dockerfile)
 - [Usage](#usage)
 - [About](#about)
 - [How it Works](#how-it-works)
