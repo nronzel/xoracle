@@ -29,6 +29,18 @@ key itself, and attempts to decrypt the data with the derived key(s).
 - **User-Friendly Interface**: Front-end written with HTMX to provide a basic
   interface.
 
+### Table of Contents
+
+- [Endpoints](#endpoints)
+- [Installation](#installation)
+- [Docker](#docker)
+- [Docker - Build Yourself](#alternatively-build-image-yourself-from-dockerfile)
+- [Usage](#usage)
+- [About](#about)
+- [How it Works](#how-it-works)
+- [Testing](#testing)
+- [Contributing](#contributing)
+
 ## Endpoints
 
 ### Homepage
@@ -69,17 +81,6 @@ key itself, and attempts to decrypt the data with the derived key(s).
 
 ## Installation
 
-### Table of Contents
-
-- [Prerequisites](#prerequisites)
-- [Install Steps](#steps)
-- [Docker](#docker)
-- [Docker - Build Yourself](#alternatively-build-image-yourself-from-dockerfile)
-- [How it Works](#how-it-works)
-- [Usage](#usage)
-- [About](#about)
-- [Contributing](#contributing)
-
 ### Prerequisites
 
 Go 1.22
@@ -88,13 +89,13 @@ Go 1.22
 
 **1. Clone the repository:**
 
-```sh
+```bash
 git clone https://github.com/nronzel/xoracle.git
 ```
 
 **2. Navigate to the project directory:**
 
-```sh
+```bash
 cd xoracle
 ```
 
@@ -104,7 +105,7 @@ cd xoracle
 
 Install dependencies with the command:
 
-```sh
+```bash
 go mod tidy
 ```
 
@@ -112,29 +113,19 @@ go mod tidy
 
 Linux & MacOS:
 
-```sh
+```bash
 go build -o xoracle && ./xoracle
 ```
 
 Windows:
 
-```sh
+```bash
 go build -o xoracle.exe && .\xoracle.exe
 ```
 
-> The script `scripts/buildprod.sh` is included and used to build the binary
-> that gets deployed to Cloud Run. You can use this script if you're planning
-> on running the binary on a Linux amd64 machine.
->
-> The flags used in `buildprod.sh` are:
->
-> ```sh
-> CGO_ENABLED=0 GOOS=linux GOARCH=amd64
-> ```
-
 **5. Open your browser and navigate to:**
 
-```text
+```bash
 localhost:8080/
 ```
 
@@ -142,19 +133,14 @@ localhost:8080/
 
 If you'd like to run this in a Docker container:
 
-**Pull the image:**
+**Using docker compose:**
 
-```sh
-docker pull sutats/xoracle:latest
+```bash
+# Builds the image and runs the container in the background
+docker compose up --build -d
 ```
 
-**Run the image:**
-
-```sh
-docker run -p 8080:8080 xoracle
-```
-
-### Alternatively (Build Image Yourself From Dockerfile)
+#### Alternatively (Build Image Yourself From Dockerfile)
 
 You can build a docker image with the included Dockerfile yourself, and run
 the image in a container.
@@ -163,13 +149,13 @@ While in the root of the project directory:
 
 **Build the image:**
 
-```sh
-docker build . -t xoracle:latest
+```bash
+docker build . -t xoracle
 ```
 
 **Run the image in a container:**
 
-```sh
+```bash
 docker run -p 8080:8080 xoracle
 ```
 
@@ -184,15 +170,15 @@ processed data will show in the output box, or an error will display on the scre
 Feel free to use the small example below, or the text from the included [example.txt](./example.txt)
 file in the repository to test it out.
 
-```sh
-// Base64 encoded
+```bash
+# Base64 encoded
 MiciMCQ2YTYkOjViJTclJyQ=
 ```
 
 or
 
-```sh
-// Hex encoded
+```bash
+# Hex encoded
 3227223024366136243a35622537252724
 ```
 
